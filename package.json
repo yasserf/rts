@@ -1,0 +1,32 @@
+{
+  "name": "rts",
+  "version": "0.0.0",
+  "description": "First attempt at RTS ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yasserf/rts.git"
+  },
+  "keywords": [
+    "rts"
+  ],
+  "author": "yasserf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yasserf/rts/issues"
+  },
+  "homepage": "https://github.com/yasserf/rts",
+  "devDependencies": {
+    "gulp": "^3.6.2",
+    "gulp-browserify": "^0.5.0",
+    "gulp-buster": "^0.2.1",
+    "gulp-concat": "^2.2.0",
+    "gulp-jshint": "^1.6.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-sass": "^0.7.1",
+    "gulp-uglify": "^0.3.0"
+  }
+}

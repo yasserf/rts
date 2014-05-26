@@ -1,0 +1,21 @@
+<html>
+
+<head>
+    <link  rel="stylesheet" type="text/css" href="css/render.css"/>
+
+    <script>
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'Main.js?v=' + (Math.random()*100000).toFixed(0);
+        head.appendChild(script);
+    </script>
+
+</head>
+<body>
+    <h1>Game</h1>
+    <div class="game-area">
+
+    </div>
+</body>
+</html>
