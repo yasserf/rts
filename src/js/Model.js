@@ -2,9 +2,17 @@ var Model = function () {
     this._handlers = {};
     this._data = {};
     this._changed = [];
+    this.set("UID", Model.UID++);
 };
 
+Model.UID = 0;
+
 Model.prototype.init = function (initialData) {
+
+    for (var handler in this._handlers) {
+            this._handlers[handler] = new this._handlers[handler](this);
+    }
+
     for (var handler in this._handlers) {
       if (this._handlers[handler].init) {
         this._handlers[handler].init(initialData);

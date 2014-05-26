@@ -3,31 +3,42 @@
  */
 var EntityHandler = function(model) {
     this._model = model;
-    this._model.set("entities", []);
+    this._model.set("entities", {});
 };
 
 EntityHandler.prototype.init = function(data) {
 };
 
-EntityHandler.prototype.addEntity = function(entity) {
+EntityHandler.prototype.addEntityToGroup = function(entity, groupName) {
     var entities = this._model.get("entities");
-    entities.push(entity);
-    this._model.set("entities", entities);
+    if(entities[groupName]) {
+        entities[groupName].push(entity);
+    } else {
+        entities[groupName] = [entity];
+    }
 };
 
-EntityHandler.prototype.removeEntity = function(entity) {
-    var entities = this._model.get("entities");
-    var index = entities.indexOf(entity);
-    if(index > -1) {
-        entities.splice(index, 1);
-        this._model.set("entities", entities);
+EntityHandler.prototype.removeEntityFromGroup = function(entity, groupName) {
+    var entitiesGroup = this._model.get("entities")[groupName];
+    var index;
+
+    if(entitiesGroup) {
+        index = entitiesGroup.indexOf(entity);
+        if(index > -1) {
+            entities.splice(index, 1);
+
+        }
     }
 };
 
 EntityHandler.prototype.update = function(timeElapsed) {
+    var entitiesLength;
     var entities = this._model.get("entities");
-    for(var i=0; i< entities.length; i++) {
-        entities[i].update(timeElapsed);
+    for(var entityGroup in entities) {
+        entitiesLength = entities[entityGroup].length;
+        for(var i=0; i< entitiesLength; i++) {
+            entities[entityGroup][i].update(timeElapsed);
+        }
     }
 };
 

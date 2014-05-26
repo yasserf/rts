@@ -1,11 +1,35 @@
-.progressbar {
-    background-color: black;
-    border-radius: 13px; /* (height of inner div) / 2 + padding */
-    padding: 3px;
+
+.game-area {
+    position: relative;
+    width: 900px;
+    height:500px;
+    background-image: url("../images/terrain.jpg");
 }
 
-.progressbar > div {
+.building {
+    background-image: url("../images/house.png");
+    border-radius: 13px; /* (height of inner div) / 2 + padding */
+    padding: 3px;
+    position: absolute;
+}
+
+.building > div {
+    margin-top: 95%;
     background-color: orange;
-    height: 20px;
+    height: 10%;
     border-radius: 10px;
+}
+
+.unit {
+    z-index: 1;
+    background-image: url("../images/builder.jpg");
+    position: absolute;
+}
+
+.unit.moving{
+    border: 2px solid blue;
+}
+
+.unit.building{
+    border: 2px solid orange;
 }

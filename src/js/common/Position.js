@@ -1,12 +1,14 @@
 /**
  * Position of Entity from the top left corner
- * @param x
- * @param y
  * @constructor
  */
-var Position = function(x, y) {
-    this.x = x;
-    this.y = y;
+var Position = function(model) {
+    this._model = model;
+};
+
+Position.prototype.init = function(data) {
+    this._model.set("x", data.x);
+    this._model.set("y", data.y);
 };
 
 module.exports = Position;
