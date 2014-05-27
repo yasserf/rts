@@ -1,30 +1,39 @@
-var ServiceRegistry = require("./ServiceRegistry");
 var Model = require("./Model");
 var EntityHandler = require("./EntityHandler");
 var ConstructionState = require("./buildings/ConstructionState");
+var Resources = require("./buildings/Resources");
 var JobFinder = require("./units/workers/JobFinder");
+var Economy = require("./Economy");
 var Task = require("./units/workers/Task");
 var Position = require("./common/Position");
 var SurfaceArea = require("./common/SurfaceArea");
 var DomRenderer = require("./dom/DomRenderer");
 
-window.ServiceRegistry.addService("jobQueue", []);
-window.ServiceRegistry.addService("idleWorkers", []);
-
 var renderer = new DomRenderer();
-var world = new Model();
-world.addHandler("entity", EntityHandler);
-world.addHandler("jobFinder", JobFinder);
-world.init();
+
+function createWorld() {
+    var world = new Model();
+    window.world = world;
+
+    world.addHandler("entity", EntityHandler);
+    world.addHandler("jobFinder", JobFinder);
+    world.addHandler("economy", Economy);
+    world.set("jobQueue", []);
+    world.set("idleWorkers", []);
+
+    world.init();
+};
 
 function addBuilding(x, y) {
     var building = new Model();
     building.addHandler("construction", ConstructionState);
+    building.addHandler("resources", Resources);
     building.addHandler("position", Position);
     building.addHandler("surfaceArea", SurfaceArea);
 
     building.init({
-            "ConstructionTime" : 20,
+            "ResourceTime" : 30,
+            "ConstructionTime" : 5,
             "x" : x,
             "y" : y,
             "width" : 33,
@@ -48,7 +57,7 @@ function addUnit() {
     });
 
     world.getHandler("entity").addEntityToGroup(unit, "units");
-    window.ServiceRegistry.getService("idleWorkers").push(unit);
+    world.get("idleWorkers").push(unit);
 }
 
 function runGame() {
@@ -74,9 +83,20 @@ function gameLoop(elapsed) {
     renderer.render(world);
 }
 
-runGame();
+createWorld();
+
+window.setInterval(function() {
+   // addBuilding(parseInt((Math.random() * 850)), parseInt((Math.random() * 450)));
+}, 7000);
 
 addBuilding(350, 100);
+addBuilding(200, 150);
+addBuilding(100, 250);
+
 addUnit(50, 50);
+addUnit(50, 200);
+
+runGame();
 
 window.addBuilding = addBuilding;
+window.addUnit = addUnit;

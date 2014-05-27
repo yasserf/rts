@@ -12,8 +12,8 @@ Task.prototype.init = function(data) {
 };
 
 Task.prototype.start = function(task) {
-    var idleWorkers = ServiceRegistry.getService("idleWorkers");
-    idleWorkers.splice(idleWorkers.indexOf(this._model));
+    var idleWorkers = world.get("idleWorkers");
+    idleWorkers.splice(idleWorkers.indexOf(this._model),1);
 
     this._model.set("AssignedTask", task);
 };
@@ -21,8 +21,9 @@ Task.prototype.start = function(task) {
 Task.prototype.stop = function() {
     this._model.set("AssignedTask", null);
 
-    var idleWorkers = ServiceRegistry.getService("idleWorkers");
+    var idleWorkers = world.get("idleWorkers");
     idleWorkers.push(this._model);
+    this._model.set("task", "idle");
 };
 
 Task.prototype.update = function(timeElapsed) {
@@ -52,9 +53,9 @@ Task.prototype.update = function(timeElapsed) {
             }
 
         } else {
-                task.getHandler("construction").assignWorker(this._model);
+                var handler =  task.getHandler("construction")?  task.getHandler("construction") :  task.getHandler("resources");
+                handler.assignWorker(this._model);
                 this._model.set("AssignedTask", null);
-
         }
 
     }

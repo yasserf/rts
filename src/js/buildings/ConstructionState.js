@@ -17,8 +17,9 @@ ConstructionState.prototype.assignWorker = function(worker) {
 ConstructionState.prototype.init = function(data) {
     this._constructionTime = data.ConstructionTime;
     this._model.set("RemainingConstructionTime", this._constructionTime);
+    this._model.set("State", "constructing");
 
-    ServiceRegistry.getService("jobQueue").push(this._model);
+    world.get("jobQueue").push(this._model);
 };
 
 
@@ -32,11 +33,6 @@ ConstructionState.prototype.update = function(timeElapsed) {
         this._model.set("RemainingConstructionTime", updateTimeRemaining);
         this._model.set("ConstructionPercentage",  100 - ((constructionTimeRemaining /  this._constructionTime) * 100 ));
     } else {
-        var activeBuilders = this._model.get("ActiveWorkers");
-        for(var i=0; i<activeBuilders.length; i++) {
-            activeBuilders[i].getHandler("task").stop();
-        }
-
         this._model.removeHandler("construction");
     }
 };
@@ -44,8 +40,15 @@ ConstructionState.prototype.update = function(timeElapsed) {
 ConstructionState.prototype.destroy = function() {
     this._model.remove("RemainingConstructionTime");
     this._model.remove("ConstructionPercentage");
-    this._model.remove("AssignedWorker");
-    this._model.remove("ActiveWorkers");
+
+    var activeBuilders = this._model.get("ActiveWorkers");
+    for(var i=0; i<activeBuilders.length; i++) {
+        activeBuilders[i].getHandler("task").stop();
+    }
+    this._model.set("ActiveWorkers", []);
+    this._model.set("AssignedWorker", []);
+
+    this._model.set("State", "");
 };
 
 module.exports = ConstructionState;

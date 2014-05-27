@@ -30,8 +30,17 @@ BuildingRenderer.prototype._renderBuilding = function(buildingModel, buildingEle
         this._gameArea.appendChild(buildingElement);
     }
 
-    var constructionProgressBar = buildingElement.querySelector("div");
-    constructionProgressBar.style.width = buildingModel.get("ConstructionPercentage") + "%";
+    var state = buildingModel.get("State");
+    buildingElement.className = "building " + state;
+
+    var progressBar = buildingElement.querySelector("div");
+    if(state === "constructing") {
+        progressBar.style.width = buildingModel.get("ConstructionPercentage") + "%";
+    } else {
+        progressBar.style.width = buildingModel.get("ResourcePercentage") + "%";
+    }
+
+
 
     return buildingElement;
 };

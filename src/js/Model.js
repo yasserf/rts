@@ -1,7 +1,6 @@
 var Model = function () {
     this._handlers = {};
     this._data = {};
-    this._changed = [];
     this.set("UID", Model.UID++);
 };
 
@@ -52,7 +51,6 @@ Model.prototype.get = function (key) {
  */
 Model.prototype.set = function (key, value) {
     this._data[key] = value;
-    this._changed.push(key);
 };
 
 /**

@@ -15,9 +15,16 @@
 
 .building > div {
     margin-top: 95%;
-    background-color: orange;
     height: 10%;
     border-radius: 10px;
+}
+
+.building.constructing > div {
+    background-color: orange;
+}
+
+.building.resources > div {
+    background-color: green;
 }
 
 .unit {
@@ -32,4 +39,8 @@
 
 .unit.building{
     border: 2px solid orange;
+}
+
+.unit.gathering{
+    border: 2px solid green;
 }
